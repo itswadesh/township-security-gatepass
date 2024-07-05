@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="controller.css">
+</head>
+<body>
+  <div class="container">
+    <div class="photo">
+      <img id="photo" src="" alt="Photo">
+    </div>
+    <div class="form-section">
+      <img src="submitlogo.png" alt="Logo" style="width: 800px; height: 100px; margin-bottom: 20px;">
+      <h2 style="text-align: center;">In/Out Movement</h2>
+    
+      <div class="form-group">
+        <label for="pass_no">Pass no:</label>
+        <input type="text" id="pass_no" placeholder="or scan by bar code scanner">
+        <button type="button" onclick="fetchData()">Submit</button>
+      </div>
+
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" disabled>
+      </div>
+
+      <div class="form-group">
+        <label for="mobile_no">Mobile No.:</label>
+        <input type="text" id="mobile_no" disabled>
+      </div>
+
+      <div class="form-group">
+        <label for="permitted_area">Permitted area:</label>
+        <input type="text" id="permitted_area" disabled>
+      </div>
+
+      <div class="form-group">
+        <label for="category">Category:</label>
+        <input type="text" id="category" disabled>
+      </div>
+
+      <div class="form-group">
+        <label for="status">Status:</label>
+        <input type="text" id="status" disabled>
+      </div>
+
+      <p>(if the pass status is active operator can make In/Out if not exit)</p>
+
+      <div class="form-group">
+        <label for="through_gate">Through Gate:</label>
+        <select id="through_gate" disabled>
+          <option value="nac">NAC</option>
+          <option value="semiliguda">Semiliguda</option>
+          <option value="chakroli">Chakroli</option>
+          <option value="jersyfarm">Jersyfarm</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="in_time">In Time:</label>
+        <input type="datetime-local" id="in_time" name="in_time" disabled>
+      </div>
+
+      <div class="form-group">
+        <label for="out_time">Out Time:</label>
+        <input type="datetime-local" id="out_time" name="out_time" disabled>
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <button type="button" id="save-btn" onclick="saveData()" disabled>Save</button>
+      </div>
+    </div>
+  </div>
+    <script>
+      function fetchData() {
+        var passNo = document.getElementById('pass_no').value;
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'controller.php', true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.onload = function() {
+          if (xhr.status === 200) {
+            var response = xhr.responseText;
+            console.log(response);
+            var data = JSON.parse(response);
+            document.getElementById("name").value = data.name || '';
+            document.getElementById("mobile_no").value = data.mobile_no || '';
+            document.getElementById("permitted_area").value = data.permitted_area || '';
+            document.getElementById("category").value = data.category || '';
+            document.getElementById("status").value = data.status || '';
+    
+            if (data.status === 'Active') {
+              document.getElementById("through_gate").disabled = false;
+              document.getElementById("in_time").disabled = false;
+              document.getElementById("out_time").disabled = false;
+              document.getElementById("save-btn").disabled = false;
+            } else {
+              alert("Pass is not active. Please renew the pass.");
+            }
+    
+            var photo = document.getElementById("photo");
+            if (data.photo) {
+              photo.src = "uploads/" + data.photo;
+            } else {
+              photo.src = "";
+            }
+          } else {
+            console.error('Error:', xhr.statusText);
+          }
+        };
+        xhr.onerror = function() {
+          console.error('Error:', xhr.statusText);
+        };
+        xhr.send('pass_no=' + encodeURIComponent(passNo));
+      }    
+  
+      function saveData() {
+        var name = document.getElementById("name").value;
+        var mobile_no = document.getElementById("mobile_no").value;
+        var permitted_area = document.getElementById("permitted_area").value;
+        var category = document.getElementById("category").value;
+        var through_gate = document.getElementById("through_gate").value;
+        var in_time = document.getElementById("in_time").value;
+        var out_time = document.getElementById("out_time").value;
+        var photo = document.getElementById("photo").src;
+        var status = document.getElementById("status").value;
+    
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'controller.php', true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.onload = function() {
+          if (xhr.status === 200) {
+            console.log(xhr.responseText);
+            alert("Data saved successfully");
+    
+            var movementData = {
+              pass_no: document.getElementById("pass_no").value,
+              in_time: in_time,
+              out_time: out_time,
+              through_gate: through_gate,
+              status: status
+            };
+    
+            var movementXHR = new XMLHttpRequest();
+            movementXHR.open('POST', 'movement_controller.php', true);
+            movementXHR.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            movementXHR.onload = function() {
+              if (movementXHR.status === 200) {
+                console.log(movementXHR.responseText);
+                location.reload(); // Reload the page after successful save
+              } else {
+                console.error('Error:', movementXHR.statusText);
+                alert("Error saving movement data");
+              }
+            };
+            movementXHR.onerror = function() {
+              console.error('Error:', movementXHR.statusText);
+              alert("Error saving movement data");
+            };
+            movementXHR.send('pass_no=' + encodeURIComponent(movementData.pass_no) + '&in_time=' + encodeURIComponent(movementData.in_time) + '&out_time=' + encodeURIComponent(movementData.out_time) + '&through_gate=' + encodeURIComponent(movementData.through_gate) + '&status=' + encodeURIComponent(movementData.status));
+          } else {
+            console.error('Error:', xhr.statusText);
+            alert("Error saving data");
+          }
+        };
+        xhr.onerror = function() {
+          console.error('Error:', xhr.statusText);
+          alert("Error saving data");
+        };
+        xhr.send('name=' + encodeURIComponent(name) + '&mobile_no=' + encodeURIComponent(mobile_no) + '&permitted_area=' + encodeURIComponent(permitted_area) + '&category=' + encodeURIComponent(category) + '&through_gate=' + encodeURIComponent(through_gate) + '&in_time=' + encodeURIComponent(in_time) + '&out_time=' + encodeURIComponent(out_time) + '&photo=' + encodeURIComponent(photo));
+      }
+  </script>
+</body>
+</html>

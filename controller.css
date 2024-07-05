@@ -1,0 +1,98 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to bottom, #ffffff, #bfedfc); /* added a blue gradient background */
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.photo {
+  position: absolute;
+  top: 200px;
+  right: 100px;
+  width: 200px;
+  height: 200px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+  background-color: #fff; /* added a white background */
+  border-radius: 0px; /* added a rounded corner */
+  overflow: hidden; /* added to prevent image from overflowing */
+}
+
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0px; /* added a rounded corner */
+}
+
+.form-section {
+  width: 70%;
+  margin: 20px;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.5); /* made the background translucent */
+  border-radius: 10px; /* added a rounded corner */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* added a subtle shadow */
+}
+
+h2 {
+  margin-top: 10px;
+  font-size: 30px;
+  margin-bottom: 10px;
+  text-align: center;
+  color: rgb(10, 164, 225);
+  font-weight: bold; /* made the font bold */
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold; /* made the font bold */
+}
+
+#passNo {
+  width: 91%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px; /* added a rounded corner */
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s; /* added a transition effect */
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+button:active {
+  background-color: #3e8e41; /* added a darker shade on active state */
+}

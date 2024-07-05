@@ -1,0 +1,22 @@
+/* external.css */
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background-image: url('hallogin.png'); /* replace with your background image */
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .container {
+    max-width: 500px; /* adjust the width to your liking */
+    background-color:  rgba(255, 255, 255, 0.5) ;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }

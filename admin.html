@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Page</title>
+  <link rel="stylesheet" type="text/css" href="admin.css">
+</head>
+<body>
+  <div class="container">
+    <h1>ADMIN PAGE</h1>
+    <div class="button-container">
+      <a href="registration.php">
+        <button>REGISTER USER</button>
+      </a>
+      <a href="submit_form.html">
+        <button>SUPERVISOR FORM</button>
+      </a>
+      <a href="controller.html">
+        <button>CONTROLLER FORM</button>
+      </a>
+      <div class="dropdown">
+        <button class="dropbtn" onclick="toggleDropdown(this)">DATABASE LIST</button>
+        <div class="dropdown-content">
+          <a href="userlist.php">
+            <button>REGISTRATION DATABASE</button>
+          </a>
+          <a href="supervisor_db.php">
+            <button>SUPERVISOR DATABASE</button>
+          </a>
+          <a href="controller_db.php">
+            <button>CONTROLLER DATABASE</button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleDropdown(element) {
+      var dropdownContent = element.nextElementSibling;
+      dropdownContent.style.display = (dropdownContent.style.display === "block") ? "none" : "block";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>HAL Township Security Pass Biodata</title>
+  <link rel="stylesheet" href="submit_form.css">
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
+</head>
+
+<body>
+  <header>
+  <div class="container">
+    <img src="submitlogo.png" alt="HAL Township Security Logo" class="logo">
+    <h2>HAL Township Security</h2>
+    <h3>Security Pass Biodata</h3>
+
+    <form action="submit_form.php" method="post" enctype="multipart/form-data">
+
+      <table>
+
+        <tr>
+          <td>Category:</td>
+          <td>
+            <select name="category">
+              <option value="">Select</option>
+              <option value="Domestic Helper">Domestic Helper</option>
+              <option value="Vendor">Vendor</option>
+              <option value="Other">Other</option>
+            </select>
+            <span id="other-category"></span>
+          </td>
+        </tr>
+
+        <tr>
+          <td>Pass No:</td>
+          <td><input type="text" name="pass_no" /></td>
+        </tr>
+
+        <tr>
+          <td>Name:</td>
+          <td><input type="text" name="name" /></td>
+        </tr>
+
+        <tr>
+          <td>Aadhar No:</td>
+          <td><input type="text" name="aadhar_no" /></td>
+        </tr>
+
+        <tr>
+          <td>Mobile No:</td>
+          <td><input type="text" name="mobile_no" /></td>
+        </tr>
+
+        <tr>
+          <td>Date of Birth:</td>
+          <td><input type="date" name="dob" /></td>
+        </tr>
+
+        <tr>
+          <td>Gender:</td>
+          <td>
+            <select name="gender">
+              <option value="">Select</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Others</option>
+            </select>
+          </td>
+        </tr>
+
+        <tr>
+          <td>Address:</td>
+          <td><textarea name="address"></textarea></td>
+        </tr>
+
+        <tr>
+          <td>Permitted Area/Qtr/Location:</td>
+          <td><input type="text" name="permitted_area" /></td>
+        </tr>
+
+        <tr>
+          <td>Pass Requested By:</td>
+          <td><input type="text" name="pass_requested_by" /></td>
+        </tr>
+
+        <tr>
+          <td>Upload Photo:</td>
+          <td>
+            <input type="file" name="photo" />
+            <div class="upload-box">
+              <div class="uploaded-image-container">
+                <img id="uploaded-photo" alt="Uploaded Photo" />
+                <div class="image-overlay">
+                  <span id="upload-status"></span>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td>Barcode:</td>
+          <td>
+            <input type="text" id="barcode-input" name="barcode" readonly />
+            <button type="button" id="generate-barcode-btn">Generate Barcode</button>
+            <div class="barcode-container">
+              <canvas id="barcode-canvas" width="200" height="100"></canvas>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td>Pass Valid Upto:</td>
+          <td><input type="date" name="pass_valid_upto" /></td>
+        </tr>
+
+        <tr>
+          <td>Status:</td>
+          <td>
+            <select name="status">
+              <option value="">Select</option>
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </td>
+        </tr>
+
+        <tr>
+          <td>Pass Issued Date Upto:</td>
+          <td><input type="date" name="pass_issued_date_upto" /></td>
+        </tr>
+
+        <tr>
+          <td>Renewed:</td>
+          <td><input type="text" name="renewed" /></td>
+        </tr>
+
+        <tr>
+          <td>Pass Received By & Mobile:</td>
+          <td><input type="text" name="pass_received_by" /></td>
+        </tr>
+
+        <tr>
+          <td>Remarks:</td>
+          <td><textarea name="remarks"></textarea></td>
+        </tr>
+
+        <tr>
+          <td colspan="2">
+            <input type="submit" value="Save" />
+            <input type="button" value="Update" onclick="updateForm()">
+            <input type="hidden" name="action" id="action" value="" />
+          </td>
+        </tr>
+
+      </table>
+
+    </form>
+
+  </div>
+
+  <script>
+    // Form validation
+    const aadharInput = document.querySelector('input[name="aadhar_no"]');
+    aadharInput.addEventListener('input', (e) => {
+      const aadharValue = e.target.value;
+      if (aadharValue.length!== 12 || isNaN(aadharValue)) {
+        e.target.setCustomValidity('Aadhar number must be 12 digits');
+      } else {
+        e.target.setCustomValidity('');
+      }
+    });
+  
+    // Image upload
+    const uploadBox = document.querySelector('.upload-box');
+    const uploadedPhoto = document.querySelector('#uploaded-photo');
+    const uploadStatus = document.querySelector('#upload-status');
+  
+    document.querySelector('input[type="file"]').addEventListener('change', (e) => {
+      //... (rest of the image upload logic remains the same)
+    });
+  
+    // Barcode generation
+    const generateBarcodeBtn = document.querySelector('#generate-barcode-btn');
+    const barcodeCanvas = document.querySelector('#barcode-canvas');
+    const barcodeInput = document.querySelector('#barcode-input');
+  
+    generateBarcodeBtn.addEventListener('click', () => {
+      const passNo = document.querySelector('input[name="pass_no"]').value;
+      const name = document.querySelector('input[name="name"]').value;
+      const aadharNo = document.querySelector('input[name="aadhar_no"]').value;
+  
+      const barcodeData = `${passNo}`;
+      JsBarcode("#barcode-canvas", barcodeData, {
+        format: "CODE128",
+        displayValue: false,
+        width: 2,
+        height: 100,
+        textMargin: 0
+      });
+  
+      barcodeInput.value = barcodeData;
+    });
+  
+    // Update form
+    function updateForm() {
+      document.getElementById('action').value = 'update';
+      document.getElementById('myForm').submit(); // Use a more explicit form reference
+    }
+  </script>
+
+</body>
+</html>

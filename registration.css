@@ -1,0 +1,86 @@
+  body {
+    font-family: Arial, sans-serif;
+    background-image: url('halreg.png');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+  }
+  
+  h2 {
+    margin-top: 0;
+    color: #333;
+    display: inline-block;
+    font-weight: bold; 
+    text-align: right;
+  }
+  
+  /* Form styles */
+  
+  form {
+    margin-top: 20px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  input[type="text"], input[type="password"], select {
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+  }
+  
+  input[type="text"]:focus, input[type="password"]:focus, select:focus {
+    border-color: #aaa;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  button[type="submit"] {
+    background-color: #337ab7;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    align-items: centre;
+
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #23527c;
+  }
+  
+  /* Alert styles */
+  
+  .alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #2e8b2e;
+    border-radius: 5px;
+    background-color: #dff0df;
+    color: #2e8b2e;
+  }
+  
+  .alert-success {
+    border-color: #2e8b2e;
+    background-color: #dff0df;
+    color: #2e8b2e;
+  }
